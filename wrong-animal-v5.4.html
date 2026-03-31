@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<!-- nav-mode: in-page -->
+<!-- Wrong Animal Landing Page v5.4 — March 31, 2026 — copy + conversion pass -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wrong Animal — AI Behavior Testing for B2B Teams</title>
+  <meta name="description" content="Your AI works in the demo. It breaks in production. We find out where, why, and what to do about it — before your users do. One problem. 3–5 days. Real answers.">
+
+  <!-- Open Graph (LinkedIn, social sharing) -->
+  <meta property="og:title" content="Wrong Animal — We break your AI before your users do.">
+  <meta property="og:description" content="Adversarial simulation sprints for B2B teams shipping AI features. 3–5 days. One problem. Real answers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wronganimal.studio">
+  <meta property="og:site_name" content="Wrong Animal">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Wrong Animal — We break your AI before your users do.">
+  <meta name="twitter:description" content="Adversarial simulation sprints for B2B teams shipping AI features. 3–5 days. One problem. Real answers.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600;1,700&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --off-white: #faf9f7;
+      --warm-gray: #eeedea;
+      --orange: #ff4d00;
+      --green: #53bc8d;
+      --purple: #9a32d6;
+      --gray-mid: #999;
+      --gray-dark: #666;
+      --gray-warm: #707070;
+      --orange-a11y: #cc4400;
+      --font-display: 'Antonio', sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-code: 'JetBrains Mono', monospace;
+      --max-w: 1060px;
+      --pad: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--off-white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+      background: var(--black);
+      color: var(--off-white);
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+      z-index: 200;
+      text-decoration: none;
+      border-radius: 2px;
+    }
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    /* ── FOCUS STYLES ── */
+    :focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+    }
+    .nav__btn:focus-visible,
+    .hero__cta:focus-visible,
+    .contact__btn:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── SECTION LABEL (reused) ── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 15px;
+    }
+
+    /* ── DECORATIVE IMAGE (transparent-bg fix) ── */
+    .deco-img {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      z-index: 2;
+    }
+    /* On light backgrounds: use multiply to eliminate dark fringing */
+    .deco-img--light-bg {
+      mix-blend-mode: multiply;
+    }
+    /* On dark backgrounds: natural render (dark bg blends) */
+    .deco-img--dark-bg {
+      mix-blend-mode: normal;
+    }
+
+    /* ── NAVIGATION ── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--off-white);
+      border-bottom: 1px solid rgba(10,10,10,0.1);
+      height: 69px;
+    }
+    .nav__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo { height: 35px; width: auto; }
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav__tag {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .nav__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      min-height: 44px;
+      border: 2px solid var(--black);
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.55px;
+      color: var(--black);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav__btn:hover {
+      background: var(--black);
+      color: var(--off-white);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--off-white);
+      padding: 195px var(--pad) 80px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      position: relative;
+      min-height: 714px;
+      overflow: hidden;
+    }
+    .hero__content { position: relative; z-index: 3; }
+    .hero__h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 1.19;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .hero__h1-tame {
+      position: relative;
+      display: inline-block;
+    }
+    .hero__underline {
+      position: absolute;
+      bottom: -8px;
+      left: -5px;
+      width: 200px;
+      height: 27px;
+      transform: scaleY(-1);
+      z-index: -1;
+    }
+    .hero__sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(32px, 4.5vw, 53px);
+      line-height: 1.2;
+      color: var(--black);
+      margin-top: 8px;
+    }
+    .hero__body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--black);
+      max-width: 672px;
+      margin-top: 32px;
+    }
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+      padding: 12px 24px;
+      min-height: 44px;
+      background: var(--black);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: capitalize;
+      color: var(--off-white);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .hero__cta:hover { opacity: 0.85; }
+    .hero__dot {
+      position: absolute;
+      top: 173px;
+      right: calc(var(--pad) + 73px);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fa4b00;
+    }
+    .hero__footnote {
+      position: absolute;
+      bottom: 100px;
+      left: var(--pad);
+      font-family: 'Chivo Mono', var(--font-mono), monospace;
+      font-weight: 500;
+      font-size: 9px;
+      line-height: 1.5;
+      color: var(--black);
+    }
+    .hero__footnote span { color: var(--orange); }
+    /* Bear image */
+    .hero__bear {
+      right: 19%;
+      bottom: 0;
+      width: 201px;
+      height: auto;
+    }
+    .hero__bear-annotation {
+      position: absolute;
+      right: calc(19% + 64px);
+      bottom: 15px;
+      width: 137px;
+      height: auto;
+      z-index: 1;
+    }
+
+    /* ── PROBLEM ── */
+    .problem {
+      background: var(--black);
+      padding: 96px 0 96px;
+      position: relative;
+      overflow: hidden;
+    }
+    .problem__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      position: relative;
+    }
+    .problem .section-label { color: var(--orange); }
+    .problem__h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(48px, 7vw, 85px);
+      line-height: 0.95;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--off-white);
+      margin-top: 32px;
+    }
+    .problem__h2 em {
+      color: var(--orange);
+      font-style: normal;
+    }
+    .problem__body {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--gray-mid);
+      max-width: 758px;
+      margin-top: 32px;
+    }
+    .problem__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .problem__tag {
+      border: 2px solid var(--orange);
+      padding: 14px 22px;
+      font-family: var(--font-code);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--off-white);
+      line-height: 1;
+    }
+    .problem__quote {
+      border-left: 4px solid var(--orange);
+      padding-left: 28px;
+      margin-top: 64px;
+      max-width: 768px;
+    }
+    .problem__quote-line1 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(22px, 3vw, 29px);
+      line-height: 1.3;
+      color: var(--off-white);
+    }
+    .problem__quote-line2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(22px, 3vw, 29px);
+      line-height: 1.1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-top: 12px;
+    }
+    /* Pinocchio — flush to section bottom */
+    .problem__pinocchio {
+      right: 8px;
+      bottom: -96px;
+      width: 203px;
+      height: auto;
+    }
+
+    /* ── HOW WE WORK ── */
+    .howwework {
+      background: var(--off-white);
+      padding: 36px 0 60px;
+      position: relative;
+    }
+    .howwework__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      position: relative;
+    }
+    .howwework .section-label { color: var(--black); }
+    .howwework__headline {
+      margin-top: 32px;
+    }
+    .howwework__headline-serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.2;
+      color: var(--orange);
+    }
+    .howwework__headline-display {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.15;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      max-width: 694px;
+      margin-top: 8px;
+    }
+    .howwework__headline-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.2;
+      color: var(--black);
+      margin-top: 16px;
+    }
+    /* Step cards */
+    .howwework__cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+      position: relative;
+      overflow: visible;
+    }
+    .step-card {
+      background: white;
+      border: 1px solid rgba(10,10,10,0.2);
+      padding: 25px;
+      min-height: 248px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+    .step-card--tilted {
+      transform: rotate(-0.6deg);
+    }
+    .step-card--dark {
+      background: var(--black);
+    }
+    .step-card__num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.55px;
+      color: var(--purple);
+    }
+    .step-card--break .step-card__num { color: var(--orange-a11y); }
+    .step-card--dark .step-card__num { color: #53d76c; }
+    .step-card__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 20.8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1.5;
+    }
+    .step-card--break .step-card__title { color: var(--orange); }
+    .step-card--dark .step-card__title { color: var(--green); }
+    .step-card__desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--gray-dark);
+    }
+    .step-card--dark .step-card__desc { color: white; }
+    /* Robot between card 1-2 */
+    .howwework__robot {
+      left: 158px;
+      top: 130px;
+      width: 74px;
+      height: auto;
+      z-index: 5;
+    }
+    /* Rabbit top-right of cards */
+    .howwework__rabbit {
+      right: -20px;
+      top: -75px;
+      width: 116px;
+      height: auto;
+      transform: rotate(11deg);
+    }
+    /* Potato head — between EVALUATE & BREAK, body hanging below cards */
+    .howwework__potato {
+      left: 57%;
+      bottom: -100px;
+      width: 95px;
+      height: auto;
+    }
+    .howwework__footnotes {
+      margin-top: 120px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--black);
+    }
+    .howwework__footnotes p { margin-bottom: 2px; }
+    .howwework__footnotes strong {
+      color: var(--orange);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      background: var(--warm-gray);
+      padding: 96px 0;
+      position: relative;
+    }
+    .services__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+    .services .section-label { color: var(--black); }
+    /* Process flow line */
+    .services__flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .services__flow-struck {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 32px;
+      line-height: 1.5;
+      color: var(--gray-warm);
+      text-decoration: line-through;
+    }
+    .services__flow-word {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 4px;
+    }
+    .services__flow-check {
+      width: 73px;
+      height: 53px;
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      mix-blend-mode: multiply;
+    }
+    .services__flow-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+      position: relative;
+      z-index: 2;
+    }
+    .services__flow-arrow {
+      font-family: var(--font-body);
+      font-size: 32px;
+      color: var(--gray-warm);
+      margin: 0 8px;
+      line-height: 1.5;
+    }
+    /* Service cards */
+    .services__cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 64px;
+    }
+    .service-card {
+      background: var(--off-white);
+      border: 1px solid rgba(10,10,10,0.2);
+      padding: 33px;
+      transition: transform 0.2s;
+    }
+    .service-card:hover {
+      transform: translateY(-2px);
+    }
+    .service-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .service-card__left { flex: 1; }
+    .service-card__title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .service-card__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(22px, 2.5vw, 28.8px);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1.5;
+    }
+    .service-card__badge {
+      border: 1px solid var(--black);
+      padding: 5px 13px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.45px;
+      color: var(--black);
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .service-card__subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 20.8px;
+      line-height: 1.5;
+      color: var(--gray-dark);
+      margin-top: 8px;
+    }
+    .service-card__right {
+      text-align: right;
+      flex-shrink: 0;
+      margin-left: 24px;
+    }
+    .service-card__price {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: var(--black);
+      line-height: 1.5;
+    }
+    .service-card__duration {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      color: var(--black);
+      opacity: 0.6;
+      text-align: right;
+    }
+    /* Expandable description */
+    .service-card__desc {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(10,10,10,0.08);
+    }
+    .service-card__desc-body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--gray-dark);
+      max-width: 720px;
+    }
+    .service-card__outputs {
+      margin-top: 16px;
+    }
+    .service-card__outputs-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange-a11y);
+      margin-bottom: 8px;
+    }
+    .service-card__outputs-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .service-card__output-tag {
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: var(--black);
+      background: var(--warm-gray);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* ── SIGNALS ── */
+    .signals {
+      background: var(--off-white);
+      padding: 96px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .signals__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      position: relative;
+    }
+    .signals .section-label { color: var(--orange-a11y); }
+    .signals__headline {
+      margin-top: 32px;
+    }
+    .signals__headline-serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.2;
+      color: var(--gray-warm);
+      display: inline;
+    }
+    .signals__headline-display {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.2;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+      display: inline;
+    }
+    .signals__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 34px;
+      position: relative;
+      z-index: 1;
+    }
+    .signal-card {
+      background: white;
+      border: 1px solid rgba(10,10,10,0.2);
+      padding: 33px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 126px;
+    }
+    .signal-card--tilted { transform: rotate(-0.48deg); min-height: 128px; }
+    .signal-card--tilted2 { transform: rotate(-0.34deg); min-height: 123px; }
+    .signal-card__num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      color: var(--orange-a11y);
+    }
+    .signal-card__text {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 1.95;
+      color: var(--black);
+    }
+    .signal-card__text strong {
+      font-weight: 700;
+    }
+    /* Bottom dark card */
+    .signals__cta-card {
+      background: var(--black);
+      border: 1px solid rgba(10,10,10,0.2);
+      padding: 33px;
+      margin-top: 16px;
+      max-width: calc(50% - 8px);
+      position: relative;
+      z-index: 1;
+    }
+    .signals__cta-text {
+      font-size: 19.2px;
+      line-height: 1.5;
+    }
+    .signals__cta-struck {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--gray-mid);
+      text-decoration: line-through;
+    }
+    .signals__cta-white {
+      font-family: var(--font-body);
+      font-weight: 500;
+      color: var(--off-white);
+    }
+    .signals__cta-green {
+      font-family: var(--font-body);
+      font-weight: 500;
+      color: var(--green);
+    }
+    /* Snakes — behind cards */
+    .signals__snakes {
+      right: -10px;
+      top: 28px;
+      width: 246px;
+      height: auto;
+      transform: rotate(25.4deg);
+      z-index: 0;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      background: var(--black);
+      padding: 56px 0 80px;
+      position: relative;
+    }
+    .about__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+    .about .section-label { color: var(--green); }
+    .about__headline {
+      margin-top: 72px;
+      padding-left: 26px;
+    }
+    .about__h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.2;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--off-white);
+    }
+    .about__h2-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(22px, 2.8vw, 32px);
+      line-height: 1.2;
+      color: var(--off-white);
+      margin-top: 4px;
+    }
+    .about__founders {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 74px;
+      padding: 0 58px;
+      align-items: end;
+    }
+    .founder {
+      text-align: center;
+    }
+    .founder__img {
+      width: 156px;
+      height: 145px;
+      object-fit: cover;
+      margin: 0 auto 24px;
+    }
+    .founder__img--tapir {
+      width: 183px;
+      height: 120px;
+    }
+    .founder__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 20.8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--off-white);
+      line-height: 1.5;
+    }
+    .founder__years {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gray-mid);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--off-white);
+      padding: 245px 0 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      text-align: center;
+      position: relative;
+    }
+    .contact__h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(40px, 6vw, 74px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1;
+    }
+    .contact__h2 em {
+      color: var(--orange);
+      font-style: normal;
+    }
+    .contact__sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(22px, 2.8vw, 32px);
+      line-height: 1.2;
+      color: #362e2e;
+      margin-top: 12px;
+    }
+    .contact__body {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--gray-dark);
+      margin-top: 24px;
+    }
+    .contact__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 32px;
+      padding: 10px 28px;
+      min-height: 44px;
+      background: var(--black);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: capitalize;
+      color: var(--off-white);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .contact__btn:hover { opacity: 0.85; }
+    .contact__stats {
+      margin-top: 56px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      line-height: 1.5;
+      color: var(--black);
+      text-align: center;
+    }
+    .contact__stats strong {
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+    /* Flamingo + Hippo — centered above header */
+    .contact__animals {
+      left: 50%;
+      top: -182px;
+      width: 248px;
+      height: auto;
+      transform: translateX(-50%);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .howwework__cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .step-card--tilted { transform: none; }
+      .signals__grid {
+        grid-template-columns: 1fr;
+      }
+      .signals__cta-card { max-width: 100%; }
+      .about__founders { padding: 0; }
+      .services__flow { gap: 4px; }
+      .services__flow-struck,
+      .services__flow-label,
+      .services__flow-arrow { font-size: 22px; }
+    }
+    @media (max-width: 640px) {
+      :root { --pad: 16px; }
+      .howwework__cards {
+        grid-template-columns: 1fr 1fr;
+      }
+      .about__founders {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .service-card__header { flex-direction: column; gap: 12px; }
+      .service-card__right { text-align: left; margin-left: 0; }
+      .nav__tag { display: none; }
+      .services__flow-struck,
+      .services__flow-label { font-size: 18px; }
+      .services__flow-check { width: 48px; height: 36px; }
+
+      /* ── MOBILE DECORATIVE IMAGES — scale down & reposition ── */
+      /* Hero bear: shrink + tuck to right edge */
+      .hero__bear {
+        width: 110px;
+        right: 4%;
+        bottom: 0;
+      }
+      .hero__bear-annotation {
+        width: 75px;
+        right: calc(4% + 35px);
+        bottom: 8px;
+      }
+      /* Pinocchio: smaller, stay in corner */
+      .problem__pinocchio {
+        width: 120px;
+        right: 4px;
+        bottom: -56px;
+      }
+      /* How-we-work toys: hide robot & potato (overlap cards on 2-col), keep rabbit */
+      .howwework__robot { display: none; }
+      .howwework__potato { display: none; }
+      .howwework__rabbit {
+        width: 70px;
+        right: -8px;
+        top: -45px;
+      }
+      /* Snakes: shrink behind signal cards */
+      .signals__snakes {
+        width: 140px;
+        right: -8px;
+        top: 16px;
+        opacity: 0.6;
+      }
+      /* Flamingo + Hippo: shrink, pull closer to header */
+      .contact__animals {
+        width: 150px;
+        top: -110px;
+      }
+    }
+
+    /* ── ANIMATION ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <img class="nav__logo"
+        src="https://www.figma.com/api/mcp/asset/a5dc9f1a-9d2d-457b-98cd-a0fd511f3384"
+        alt="Wrong Animal">
+      <div class="nav__right">
+        <span class="nav__tag">AI Behavior Studio</span>
+        <a href="#contact" class="nav__btn">GET IN TOUCH</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="hero__content">
+      <h1 class="hero__h1 animate-in">
+        WE <span class="hero__h1-tame">TAME
+          <img class="hero__underline"
+            src="https://www.figma.com/api/mcp/asset/619236bf-8f71-4b44-a6a3-255bb0c7c3b9"
+            alt="">
+        </span> YOUR AI ANIMAL
+      </h1>
+      <p class="hero__sub animate-in delay-1">before your users have to.</p>
+      <p class="hero__body animate-in delay-2">You've sat through the demos. You've heard the promises. Something still feels off. We take one AI behavior, stress-test it under real conditions, and show you exactly where it breaks — then hand you a prototype with the fix. 3–5 days. Done.</p>
+      <a href="#contact" class="hero__cta animate-in delay-3">LET'S TAME YOUR AI</a>
+    </div>
+    <div class="hero__dot" aria-hidden="true"></div>
+    <p class="hero__footnote">* No, we will not 'just add AI to it.' <span>In fact, we will tell you if you shouldn't</span>.</p>
+
+    <!-- Bear figurine -->
+    <img class="deco-img deco-img--light-bg hero__bear"
+      src="https://www.figma.com/api/mcp/asset/a8ca64d9-b2e1-4f1f-9fad-3f6215743c3a"
+      alt="Decorative bear figurine">
+    <!-- Bear annotation scribble -->
+    <img class="deco-img hero__bear-annotation"
+      src="https://www.figma.com/api/mcp/asset/84408b90-231c-4107-97a3-fe7e6ecf37fc"
+      alt="" style="mix-blend-mode: multiply;">
+  </section>
+
+  <!-- ═══ PROBLEM ═══ -->
+  <section class="problem" id="problem">
+    <div class="problem__inner">
+      <p class="section-label">THE PROBLEM</p>
+      <h2 class="problem__h2">AI DEMOS <em>LIE.</em></h2>
+      <p class="problem__body">They show the happy path. They skip the edge cases. They hide what happens when the model isn't sure, when the context is ambiguous, when the user phrases things differently. Your demo looks great. Your production system will do something else entirely.</p>
+      <div class="problem__tags">
+        <span class="problem__tag">WRONG RESPONSES</span>
+        <span class="problem__tag">MISPLACED CONFIDENCE</span>
+        <span class="problem__tag">ERODED TRUST</span>
+        <span class="problem__tag">SILENT FAILURES</span>
+      </div>
+      <div class="problem__quote">
+        <p class="problem__quote-line1">The goal is not to prove the system works.</p>
+        <p class="problem__quote-line2">THE GOAL IS TO UNDERSTAND WHAT IT DOES WHEN IT'S WRONG.</p>
+      </div>
+
+      <!-- Pinocchio (dark bg blends naturally) -->
+      <img class="deco-img deco-img--dark-bg problem__pinocchio"
+        src="https://www.figma.com/api/mcp/asset/b6794436-2ba9-4b7e-93d2-0ab698b1a620"
+        alt="Decorative Pinocchio figurine">
+    </div>
+  </section>
+
+  <!-- ═══ HOW WE WORK ═══ -->
+  <section class="howwework" id="process">
+    <div class="howwework__inner">
+      <p class="section-label">HOW WE WORK</p>
+      <div class="howwework__headline">
+        <p class="howwework__headline-serif">You tell us the problem.</p>
+        <h2 class="howwework__headline-display">WE IMMERSE OURSELVES IN OUR PROTOTYPING LAB FOR 3–5 DAYS.</h2>
+        <p class="howwework__headline-sub">It looks like this:</p>
+      </div>
+
+      <div class="howwework__cards" style="position:relative;">
+        <!-- Card 01 -->
+        <div class="step-card">
+          <span class="step-card__num">01</span>
+          <h3 class="step-card__title">DEFINE</h3>
+          <p class="step-card__desc">You tell us the problem. One specific behavior you need tested. No roadmap required.</p>
+        </div>
+        <!-- Card 02 -->
+        <div class="step-card">
+          <span class="step-card__num">02</span>
+          <h3 class="step-card__title">SIMULATE</h3>
+          <p class="step-card__desc">We build edge case scenarios. Real user inputs. Ambiguous context. Adversarial interactions.</p>
+        </div>
+        <!-- Card 03 (tilted) -->
+        <div class="step-card step-card--tilted">
+          <span class="step-card__num">03</span>
+          <h3 class="step-card__title">EVALUATE</h3>
+          <p class="step-card__desc">We run hundreds of tests. Document every failure mode. Track confidence vs correctness.</p>
+        </div>
+        <!-- Card 04 -->
+        <div class="step-card step-card--break">
+          <span class="step-card__num">04</span>
+          <h3 class="step-card__title">BREAK</h3>
+          <p class="step-card__desc">We find where it breaks. We find what it ignores. We find what makes it hallucinate.</p>
+        </div>
+        <!-- Card 05 (dark) -->
+        <div class="step-card step-card--dark">
+          <span class="step-card__num">05</span>
+          <h3 class="step-card__title">PROTOTYPE</h3>
+          <p class="step-card__desc">We hand you a working prototype with mitigations. Plus a report of what still scares us.</p>
+        </div>
+
+        <!-- Robot between card 1-2 -->
+        <img class="deco-img deco-img--light-bg howwework__robot"
+          src="https://www.figma.com/api/mcp/asset/06cd03a8-e5a1-4218-8336-aab0136dba1d"
+          alt="Vintage robot figurine">
+        <!-- Rabbit top-right -->
+        <img class="deco-img deco-img--light-bg howwework__rabbit"
+          src="https://www.figma.com/api/mcp/asset/44cdf504-3d04-4536-aa31-3906ebb5edea"
+          alt="White rabbit figurine">
+        <!-- Potato head at bottom of cards -->
+        <img class="deco-img deco-img--light-bg howwework__potato"
+          src="https://www.figma.com/api/mcp/asset/4c9d0e97-c3a1-4036-8af7-51bd605425f8"
+          alt="Mr. Potato Head figurine">
+      </div>
+
+      <div>
+        <div class="howwework__footnotes">
+          <p>↳ <strong>1–2 calls max.</strong> No workshops. No alignment theater. No hemming. No hawing.</p>
+          <p>↳ Built on real HCI and ML research. Not blog posts. Every deliverable is testable.</p>
+          <p>↳ No handholding. No sugar-coating.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="services" id="services">
+    <div class="services__inner">
+      <p class="section-label">SERVICES</p>
+
+      <!-- Process flow -->
+      <div class="services__flow">
+        <span class="services__flow-struck">strategy</span>
+        <span class="services__flow-word">
+          <img class="services__flow-check"
+            src="https://www.figma.com/api/mcp/asset/3087d1a8-8efb-4c1a-9846-7956da0ff6c5"
+            alt="">
+          <span class="services__flow-label">DEFINE</span>
+        </span>
+        <span class="services__flow-arrow">→</span>
+        <span class="services__flow-struck">research</span>
+        <span class="services__flow-word">
+          <img class="services__flow-check"
+            src="https://www.figma.com/api/mcp/asset/3087d1a8-8efb-4c1a-9846-7956da0ff6c5"
+            alt="">
+          <span class="services__flow-label">SIMULATE</span>
+        </span>
+        <span class="services__flow-arrow">→</span>
+        <span class="services__flow-struck">present</span>
+        <span class="services__flow-word">
+          <img class="services__flow-check"
+            src="https://www.figma.com/api/mcp/asset/3087d1a8-8efb-4c1a-9846-7956da0ff6c5"
+            alt="">
+          <span class="services__flow-label">HAND OFF</span>
+        </span>
+      </div>
+
+      <!-- Service cards with descriptions -->
+      <div class="services__cards">
+
+        <!-- SIMULATION SPRINT -->
+        <div class="service-card">
+          <div class="service-card__header">
+            <div class="service-card__left">
+              <div class="service-card__title-row">
+                <h3 class="service-card__title">SIMULATION SPRINT</h3>
+                <span class="service-card__badge">CORE</span>
+              </div>
+              <p class="service-card__subtitle">Start here.</p>
+            </div>
+            <div class="service-card__right">
+              <p class="service-card__price">$10–15K</p>
+              <p class="service-card__duration">3–5 days</p>
+            </div>
+          </div>
+          <div class="service-card__desc">
+            <p class="service-card__desc-body">We isolate the behavior most likely to erode trust, lose money, or break a workflow. Build realistic scenarios around it — the ambiguous ones, the adversarial ones, the ones your QA team didn't think of. Run hundreds of them. Then hand you a working prototype with mitigations baked in.</p>
+            <div class="service-card__outputs">
+              <p class="service-card__outputs-label">↳ OUTPUTS</p>
+              <div class="service-card__outputs-list">
+                <span class="service-card__output-tag">Scenario library</span>
+                <span class="service-card__output-tag">Eval results matrix</span>
+                <span class="service-card__output-tag">Failure mode taxonomy</span>
+                <span class="service-card__output-tag">Mitigation prototype</span>
+                <span class="service-card__output-tag">Risk register</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IDEA KILL -->
+        <div class="service-card">
+          <div class="service-card__header">
+            <div class="service-card__left">
+              <div class="service-card__title-row">
+                <h3 class="service-card__title">IDEA KILL</h3>
+              </div>
+              <p class="service-card__subtitle">Should this exist?</p>
+            </div>
+            <div class="service-card__right">
+              <p class="service-card__price">$3–5K</p>
+              <p class="service-card__duration">1–2 days</p>
+            </div>
+          </div>
+          <div class="service-card__desc">
+            <p class="service-card__desc-body">Before you build, we run a structured feasibility teardown. We model the interaction, test whether the AI can reliably do what you're asking, and give you a clear signal: ship it, reshape it, or kill it.</p>
+            <div class="service-card__outputs">
+              <p class="service-card__outputs-label">↳ OUTPUTS</p>
+              <div class="service-card__outputs-list">
+                <span class="service-card__output-tag">Feasibility assessment</span>
+                <span class="service-card__output-tag">Interaction model</span>
+                <span class="service-card__output-tag">Go/no-go recommendation with evidence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI OPPORTUNITY MAP -->
+        <div class="service-card">
+          <div class="service-card__header">
+            <div class="service-card__left">
+              <div class="service-card__title-row">
+                <h3 class="service-card__title">AI OPPORTUNITY MAP</h3>
+              </div>
+              <p class="service-card__subtitle">Where AI belongs (and where it doesn't)</p>
+            </div>
+            <div class="service-card__right">
+              <p class="service-card__price">$10–18K</p>
+              <p class="service-card__duration">5–7 days</p>
+            </div>
+          </div>
+          <div class="service-card__desc">
+            <p class="service-card__desc-body">We map your product end-to-end: where AI should act, where it should assist, and where it shouldn't exist. Research-grounded, not vibes.</p>
+            <div class="service-card__outputs">
+              <p class="service-card__outputs-label">↳ OUTPUTS</p>
+              <div class="service-card__outputs-list">
+                <span class="service-card__output-tag">Opportunity matrix</span>
+                <span class="service-card__output-tag">Risk-benefit map</span>
+                <span class="service-card__output-tag">Prioritized implementation roadmap</span>
+                <span class="service-card__output-tag">Experimentation plan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPEC RESCUE -->
+        <div class="service-card">
+          <div class="service-card__header">
+            <div class="service-card__left">
+              <div class="service-card__title-row">
+                <h3 class="service-card__title">SPEC RESCUE</h3>
+                <span class="service-card__badge">BLUNT</span>
+              </div>
+              <p class="service-card__subtitle">Your brief is a mess</p>
+            </div>
+            <div class="service-card__right">
+              <p class="service-card__price">Custom</p>
+              <p class="service-card__duration">3–5 days</p>
+            </div>
+          </div>
+          <div class="service-card__desc">
+            <p class="service-card__desc-body">Your requirements doc says "use AI to improve the experience." That's not a spec. We rewrite it into something an engineer can build and an evaluator can test — with acceptance criteria, edge case definitions, and measurable behavior targets.</p>
+            <div class="service-card__outputs">
+              <p class="service-card__outputs-label">↳ OUTPUTS</p>
+              <div class="service-card__outputs-list">
+                <span class="service-card__output-tag">Rewritten behavioral spec</span>
+                <span class="service-card__output-tag">Eval criteria</span>
+                <span class="service-card__output-tag">Edge case inventory</span>
+                <span class="service-card__output-tag">Acceptance test plan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SIGNALS ═══ -->
+  <section class="signals" id="signals">
+    <div class="signals__inner">
+      <p class="section-label">IS THIS FOR YOU?</p>
+
+      <div class="signals__headline">
+        <span class="signals__headline-serif">Talk to us if </span>
+        <span class="signals__headline-display">YOU FEEL THIS:</span>
+      </div>
+
+      <div class="signals__grid">
+        <div class="signal-card signal-card--tilted">
+          <span class="signal-card__num">signal_01</span>
+          <p class="signal-card__text">You're not sure when your AI should <strong>act vs ask</strong>.</p>
+        </div>
+        <div class="signal-card signal-card--tilted2">
+          <span class="signal-card__num">signal_02</span>
+          <p class="signal-card__text">You <strong>don't fully trust</strong> what your system is doing.</p>
+        </div>
+        <div class="signal-card">
+          <span class="signal-card__num">signal_03</span>
+          <p class="signal-card__text">You've tested it, but <strong>only lightly</strong>.</p>
+        </div>
+        <div class="signal-card">
+          <span class="signal-card__num">signal_04</span>
+          <p class="signal-card__text">You need to understand <strong>failure modes</strong> before rollout.</p>
+        </div>
+      </div>
+
+      <a href="#contact" class="signals__cta-card" style="text-decoration:none; display:block; cursor:pointer;">
+        <p class="signals__cta-text">
+          <span class="signals__cta-struck">Want to confirm your feature?</span>
+          <span class="signals__cta-white"> Wrong animal.</span><br>
+          <span class="signals__cta-green">Want reality?</span>
+          <span class="signals__cta-white"> Let's talk.</span>
+        </p>
+      </a>
+
+      <!-- Rubber snakes -->
+      <img class="deco-img deco-img--light-bg signals__snakes"
+        src="https://www.figma.com/api/mcp/asset/bf5cb834-f342-47af-8147-5817c880df4e"
+        alt="Decorative rubber snakes">
+    </div>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="about" id="about">
+    <div class="about__inner">
+      <p class="section-label">WHO WE ARE</p>
+
+      <div class="about__headline">
+        <h2 class="about__h2">TWO PEOPLE. THIRTY YEARS.</h2>
+        <p class="about__h2-sub">A hard-earned reputation for telling you what you didn't want to hear.</p>
+      </div>
+
+      <div class="about__founders">
+        <div class="founder">
+          <!-- Dodo bird (dark bg blends) -->
+          <img class="founder__img"
+            src="https://www.figma.com/api/mcp/asset/a12d89c7-e05e-486e-8323-6769431f63e9"
+            alt="Dodo bird figurine — Melanie's portrait">
+          <p class="founder__years">15 yrs</p>
+          <h3 class="founder__name">MELANIE GOWER: PRODUCT + DESIGN</h3>
+        </div>
+        <div class="founder">
+          <!-- Tapir (dark bg blends) -->
+          <img class="founder__img founder__img--tapir"
+            src="https://www.figma.com/api/mcp/asset/8132fe1e-825c-4424-a127-e5c151351a44"
+            alt="Tapir figurine — Hilary's portrait">
+          <p class="founder__years">15 yrs</p>
+          <h3 class="founder__name">HILARY RALLO: CODE + BUILD</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <!-- Flamingo + Hippo -->
+      <img class="deco-img deco-img--light-bg contact__animals"
+        src="https://www.figma.com/api/mcp/asset/f6442373-ef6a-4e40-ad49-d31a691b8501"
+        alt="Flamingo and hippo figurines">
+
+      <h2 class="contact__h2">SOMETHING FEEL <em>WRONG</em>?</h2>
+      <p class="contact__sub">Tell us what feels wrong. We'll tell you what is.</p>
+      <p class="contact__body">No pitch deck. No discovery workshop. No 47-slide intro. Just tell us the behavior and we'll tell you if we can help.</p>
+      <a href="mailto:hello@wronganimal.studio" class="contact__btn">HELLO@WRONGANIMAL.STUDIO</a>
+
+      <p class="contact__stats">avg response: <strong>&lt;24hrs</strong> · avg engagement: <strong>4 days</strong> · avg client relief: <strong>immeasurable</strong></p>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- ═══ SCROLL ANIMATION ═══ -->
+  <script>
+    // Intersection Observer for scroll-triggered animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    // Observe section headings and cards for entrance animation
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.problem__h2, .problem__body, .problem__tags, .problem__quote, .howwework__headline, .step-card, .service-card, .signal-card, .signals__cta-card, .about__headline, .about__founders, .contact__h2, .contact__sub').forEach(el => {
+      if (prefersReducedMotion) {
+        el.style.opacity = '1';
+        return;
+      }
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      observer.observe(el);
+    });
+
+    // Override the animate-in from observer
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `.animate-in { opacity: 1 !important; transform: translateY(0) !important; }`;
+    document.head.appendChild(styleEl);
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
